@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <img src="../static/logo.png" alt="Logo" class="logo">
+        <h1>Controle de Fila de Recadastramento</h1>
+    </header>
+    
+    {% for people in people_to_guiche %}
+            {{ people|e }}
+    {% endfor %}
+    
+
+    <div class="container p-3">
+        <div class="grid">
+            {% for guiche in guiches %}
+                <div class="item">
+                    <span class="guiche">Guichê {{ loop.index }}:</span>
+                    <span class="ficha">{{ guiche }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Função para tocar o som quando a página for carregada
+        window.onload = function() {
+            // Obtém o elemento de áudio
+            var audio = document.getElementById('audio');
+            // Toca o som
+            audio.play();
+        }
+        // Conecta ao servidor SocketIO
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Escuta o evento "atualizar_ficha"
+        socket.on('atualizar_ficha', function(data) {
+            window.location.reload(true);
+        });
+    </script>
+{% endblock %}
