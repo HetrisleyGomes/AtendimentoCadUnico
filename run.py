@@ -6,12 +6,12 @@ app.secret_key = 'supersecretkey'
 socketio = SocketIO(app)
 
 fila = []
-is_guiche_active = [1,0,0,0]
-people_to_guiche = [0,0,0,0]
+is_guiche_active = ["José cralos de albuquerque bragança silva ssauro de buarque bragança2",0,5525258,4]
+
 
 @app.route('/')
 def index():
-    return render_template('index.html', guiches=is_guiche_active, fila = fila, people_to_guiche = people_to_guiche)
+    return render_template('index.html', guiches=is_guiche_active, fila = fila)
 
 @app.route('/registro')
 def registro():
@@ -41,9 +41,9 @@ def proximo():
     print(gx)
     global guiches
     if fila:
-        people_to_guiche[int(gx)-1] = fila.pop()
+        is_guiche_active[int(gx)-1] = fila.pop(0)
         # Emite um evento para todos os clientes conectados
-        socketio.emit('atualizar_ficha', room=None)
+        socketio.emit('atualizar_ficha', {}, room=None)
 
     return redirect(url_for("guiche", gx=gx))
 

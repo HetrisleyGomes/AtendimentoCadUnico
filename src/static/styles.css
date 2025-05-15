@@ -2,10 +2,10 @@
 header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: #008C23; /* Cor do fundo */
     color: white; /* Cor do texto */
-    padding: 30px;
+    padding: 30px 10%;
     margin-bottom: 20px;
 }
 
@@ -40,23 +40,7 @@ header h1 {
     padding: 40px 10px;
 }
 
-.guiche {
-    font-weight: 800;
-    font-size: 28px;
-    padding: 10px;
-}
 
-.ficha {
-    width: 100%;
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
-    padding: 4px;
-    color: white;
-    border: 4px solid #ff7300c0;
-    border-radius: 8px;
-    background-color: #008C23;
-}
 
 .fixed-div {
     font-size: 6vh;
@@ -70,7 +54,35 @@ header h1 {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
 }
 
+.registro-form{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    & label {
+        font-weight: 700;
+        font-size: 22px;
+    }
+}
+
 /* GUICHES ------------------- */
+.master {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+.master > .child {
+    flex: 1;
+    min-width: 0; 
+    background-color: #ccc;
+    padding: 60px 20px;
+    text-align: center;
+    display: inline-grid;
+    border: 4px solid #ff7300c0;
+    border-radius: 8px;
+}
+
+
 .texto {
     width: 10vw;
     height: 5vh;
@@ -91,5 +103,26 @@ header h1 {
     flex-direction: column;
     justify-content: center; /* Centraliza horizontalmente */
     align-items: center; /* Centraliza verticalmente */
-    height: 10vh; /* Garante que a altura da página seja 100% da altura da tela */
+    gap: 20px;
+    height: 32vh; /* Garante que a altura da página seja 100% da altura da tela */
 }
+.guiche {
+    font-weight: 800;
+    font-size: 30px;
+    padding: 10px;
+}
+.name {
+    width: 100%;
+    text-align: center;
+    font-size: 200%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 700;
+    padding: 4px;
+    color: white;
+    border: 4px solid #ff7300c0;
+    border-radius: 8px;
+    background-color: #008C23;
+}
+
+/* GUICHES ------------------- */
