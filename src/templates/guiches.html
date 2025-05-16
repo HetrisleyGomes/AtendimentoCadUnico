@@ -7,9 +7,13 @@
                 Identifique seu Guichê
             </h3>
         </div>
-       <form action="/proximo" method="post" class="form" onsubmit="return showAlert()">
+       <form method="post" class="form" onsubmit="return showAlert()">
         <input type="number" name="gx" id="gx" min="1" max="4" class="form-text texto" value="{{ gx }}"> <br>
-        <button type="submit" class="btn btn-primary btn-proximo">Chamar Próximo</button>
+          <!-- Botão padrão para /proximo -->
+        <button type="submit" formaction="/proximo" class="btn btn-primary btn-proximo">Chamar Próximo</button>
+
+        <!-- Novo botão para /finalizar -->
+        <button type="submit" formaction="/finalizar" class="btn btn-danger btn-finalizar">Finalizar</button>
        </form>
     </div>
     <script>
