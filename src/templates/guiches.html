@@ -9,18 +9,19 @@
         </div>
        <form method="post" class="form" onsubmit="return showAlert()">
         <input type="number" name="gx" id="gx" min="1" max="4" class="form-text texto" value="{{ gx }}"> <br>
-          <!-- Botão padrão para /proximo -->
-        <button type="submit" formaction="/proximo" class="btn btn-primary btn-proximo">Chamar Próximo</button>
-
-        <!-- Novo botão para /finalizar -->
-        <button type="submit" formaction="/finalizar" class="btn btn-danger btn-finalizar">Finalizar</button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <!-- Botão padrão para /proximo -->
+            <button type="submit" formaction="/proximo" class="btn btn-primary btn-guiches">Chamar Próximo</button>
+            <!-- Novo botão para /finalizar -->
+            <button type="submit" formaction="/finalizar" class="btn btn-danger btn-guiches">Finalizar</button>
+        </div>
        </form>
     </div>
     <script>
         // Função que mostra o alerta e controla o envio do formulário
         function showAlert() {
             // Exibe o alerta
-            window.alert("Próxima ficha chamada!");
+            window.alert("Ação concluída!");
     
             // Retorna true para permitir que o formulário seja enviado
             return true;

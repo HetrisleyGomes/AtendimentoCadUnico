@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
     <header>
+        <img src="../static/images/caduni-img.png" alt="Logo" class="logo">
         <img src="../static/images/logo.png" alt="Logo" class="logo">
-        <h1>Cadastro Único</h1>
     </header>
 
     <div class="container p-3">
         <div class="master">
+            {% if guiches == [0,0,0,0] %}
+            <h3>Em breve iniciaremos o nosso atendimento!</h3>
+            {% endif %}
+            
             {% for guiche in guiches %}
             {% if guiche != 0 %}
                 <div class="child">

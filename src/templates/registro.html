@@ -15,6 +15,10 @@
     </div>
 
     <div class="container p-3">
+        {% if fila %}
+            <h3>Lista de chamada</h3>
+        {% endif %}
+        
         <ul class="list-group ul-list">
             {% for pessoa in fila %}
             <li class="list-group-item li-item">
