@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark p-3">
+      <a class="navbar-brand h6" href="/">Exibição</a>
+      <a class="navbar-brand h6" href="/registro">Registro</a>
+      <a class="navbar-brand h6" href="/guiches">Ghichês</a>
+      <a class="navbar-brand h6" href="/relatorio">Relatório</a>
+    </nav>
     <header>
+        <img src="../static/images/caduni-img.png" alt="Logo" class="logo">
         <img src="../static/images/logo.png" alt="Logo" class="logo">
-        <h1>Registro cadastro único</h1>
     </header>
     <div class="container p-3">
         <form action="/registrar" method="post" class="form" autocomplete="off">

@@ -63,7 +63,7 @@ header h1 {
     padding: 60px 20px;
     text-align: center;
     display: inline-grid;
-    border: 4px solid #ff7300c0;
+    border: 5px solid #006032;
     border-radius: 8px;
 }
 .texto {
@@ -92,6 +92,7 @@ header h1 {
     font-weight: 800;
     font-size: 30px;
     padding: 10px;
+    color: #006032;
 }
 .name {
     width: 100%;
@@ -102,7 +103,7 @@ header h1 {
     font-weight: 700;
     padding: 4px;
     color: white;
-    border: 4px solid #ff7300c0;
+    border: 4px solid #006032;
     border-radius: 8px;
     background-color: #008C23;
 }

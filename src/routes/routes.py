@@ -82,6 +82,11 @@ def reset():
     socketio.emit('update', room=None)
     return redirect('/guiches')
 
+@main_bp.route('/relatorio')
+def relatorio():
+    data = read_data()
+    return render_template('relatorio.html', data = data)
+
 def get_data():
     data = read_data()
     # Obtém a data de hoje no formato 'DD-MM-YYYY'

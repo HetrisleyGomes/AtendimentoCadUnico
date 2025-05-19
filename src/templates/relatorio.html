@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-dark bg-dark p-3">
+    <a class="navbar-brand h6" href="/">Exibição</a>
+    <a class="navbar-brand h6" href="/registro">Registro</a>
+    <a class="navbar-brand h6" href="/guiches">Ghichês</a>
+    <a class="navbar-brand h6" href="/relatorio">Relatório</a>
+</nav>
+
+<div class="container">
+    <h2 class="p-3">Relatório</h2>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Guichê 1</th>
+                    <th>Guichê 2</th>
+                    <th>Guichê 3</th>
+                    <th>Guichê 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data_key, valores in data.items() %}
+                <tr>
+                    <td>{{ data_key }}</td>
+                    {% for v in valores %}
+                    <td>{{ v }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
