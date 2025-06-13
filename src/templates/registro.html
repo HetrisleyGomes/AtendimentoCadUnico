@@ -1,41 +1,74 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block navbar %}
     <nav class="navbar navbar-expand navbar-dark bg-dark p-3">
       <a class="navbar-brand h6" href="/">Exibição</a>
       <a class="navbar-brand h6" href="/registro">Registro</a>
       <a class="navbar-brand h6" href="/guiches">Ghichês</a>
+      <a class="navbar-brand h6" href="/guichemaster">Ghichê Mestre</a>
       <a class="navbar-brand h6" href="/relatorio">Relatório</a>
     </nav>
     <header>
         <img src="../static/images/caduni-img.png" alt="Logo" class="logo">
         <img src="../static/images/logo.png" alt="Logo" class="logo">
     </header>
+{% endblock %}
+{% block content %}
     <div class="container p-3">
-        <form action="/registrar" method="post" class="form" autocomplete="off">
+        <form action="/registrar" method="post" class="form" id="cadastroForm" autocomplete="off">
             <div class="form-group registro-form">
                 <label for="name-input" class="label">Nome:</label>
-                <input type="text" name="name-input" id="name-input" class="form-control" autofocus>
+                <input type="text" name="name-input" id="name-input" class="form-control" autofocus required placeholder="Nome completo">
             </div>
+            <div class="form-group registro-form">
+                <label for="cpf-input" class="label">CPF:</label>
+                <input type="text" name="cpf-input" id="cpf-input" class="form-control" required placeholder="Digite o CPF (somente números)">
+            </div>
+            <div class="form-group registro-form">
+                <label for="prior-input" class="label">Atendimento para o(a) responsável:</label>
+                <input type="checkbox" name="prior-input" id="prior-input" class="form-check-input">
+            </div>
+            <div id="mensagemValidacao" class="message"></div>
             <button type="submit" class="btn btn-success">Registrar</button>
         </form>
     </div>
-
+    
     <div class="container p-3">
-        {% if fila %}
-            <h3>Lista de chamada</h3>
-        {% endif %}
-        
-        <ul class="list-group ul-list">
-            {% for pessoa in fila %}
-            <li class="list-group-item li-item">
-                {{ pessoa|e }}
-                <form action="/remover" method="post" style="display:inline;">
-                    <input type="hidden" name="nome" value="{{ pessoa }}">
-                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="row">
+            <div class="col p-2">
+                {% if fila_prior %}
+                    <h3>Lista de chamada para o(a) responsável</h3>
+                {% endif %}
+                
+                <ul class="list-group ul-list">
+                    {% for pessoa in fila_prior %}
+                    <li class="list-group-item li-item">
+                        {{ pessoa|e }}
+                        <form action="/remover/1" method="post" style="display:inline;">
+                            <input type="hidden" name="nome" value="{{ pessoa }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col p-2">
+                {% if fila %}
+                    <h3>Lista de chamada</h3>
+                {% endif %}
+                
+                <ul class="list-group ul-list">
+                    {% for pessoa in fila %}
+                    <li class="list-group-item li-item">
+                        {{ pessoa|e }}
+                        <form action="/remover/0" method="post" style="display:inline;">
+                            <input type="hidden" name="nome" value="{{ pessoa }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -45,6 +78,81 @@
     
         socket.on('update', function() {
             window.location.reload(true);
+        });
+    </script>
+        <script>
+        function validarCPF() {
+            const cpfInput = document.getElementById('cpf-input');
+            let cpf = cpfInput.value;
+            const mensagemValidacao = document.getElementById('mensagemValidacao');
+
+            cpf = cpf.replace(/[^\d]+/g, '');
+
+            if (cpf.length !== 11) {
+                exibirMensagem('CPF inválido: Deve conter 11 dígitos.', 'invalid');
+                return false; // Retorna false se inválido
+            }
+
+            if (/^(\d)\1{10}$/.test(cpf)) {
+                exibirMensagem('CPF inválido: Não pode ter todos os dígitos iguais.', 'invalid');
+                return false; // Retorna false se inválido
+            }
+
+            let soma = 0;
+            let resto;
+            for (let i = 1; i <= 9; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            }
+            resto = (soma * 10) % 11;
+
+            if ((resto === 10) || (resto === 11)) {
+                resto = 0;
+            }
+            if (resto !== parseInt(cpf.substring(9, 10))) {
+                exibirMensagem('CPF inválido: Dígito verificador 1 incorreto.', 'invalid');
+                return false; // Retorna false se inválido
+            }
+
+            soma = 0;
+            for (let i = 1; i <= 10; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            }
+            resto = (soma * 10) % 11;
+
+            if ((resto === 10) || (resto === 11)) {
+                resto = 0;
+            }
+            if (resto !== parseInt(cpf.substring(10, 11))) {
+                exibirMensagem('CPF inválido: Dígito verificador 2 incorreto.', 'invalid');
+                return false; // Retorna false se inválido
+            }
+            
+            return true; // Retorna true se válido
+        }
+
+
+        function exibirMensagem(texto, tipo) {
+            const mensagemValidacao = document.getElementById('mensagemValidacao');
+            mensagemValidacao.textContent = texto;
+            mensagemValidacao.className = 'message ' + tipo; // Adiciona a classe para estilização
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cadastroForm = document.getElementById('cadastroForm');
+
+            cadastroForm.addEventListener('submit', function(event) {
+                // 1. Chama a função de validação do CPF
+                const cpfEhValido = validarCPF();
+
+                // 2. Se o CPF for inválido, impede o envio do formulário
+                if (!cpfEhValido) {
+                    event.preventDefault(); // Previne o comportamento padrão de submit
+                    alert('Por favor, corrija o CPF antes de enviar o formulário.'); // Mensagem de alerta (opcional)
+                    // Você pode focar no campo do CPF ou fazer outra ação aqui
+                    document.getElementById('cpfInput').focus();
+                }
+                // Se cpfEhValido for true, o formulário será enviado normalmente
+            });
         });
     </script>
 {% endblock %}

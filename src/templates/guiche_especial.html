@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block navbar %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark p-3">
+      <a class="navbar-brand h6" href="/">Exibição</a>
+      <a class="navbar-brand h6" href="/registro">Registro</a>
+      <a class="navbar-brand h6" href="/guiches">Ghichês</a>
+      <a class="navbar-brand h6" href="/guichemaster">Ghichê Mestre</a>
+      <a class="navbar-brand h6" href="/relatorio">Relatório</a>
+    </nav>
     <header>
         <img src="../static/images/caduni-img.png" alt="Logo" class="logo">
         <img src="../static/images/logo.png" alt="Logo" class="logo">
@@ -9,21 +16,20 @@
     <div class="container p-5">
         <div class="container">
             <h3 class="titulo">
-                Identifique seu Guichê
+                Bem-vind@!
             </h3>
         </div>
-        {% if fila %}
+        {% if fila_prior %}
             <div class="container">
                 <p class="aviso">Há pessoas na fila!</p>
             </div>
         {% endif %}
        <form method="post" class="form" onsubmit="return showAlert()">
-        <input type="number" name="gx" id="gx" min="1" max="4" class="form-text texto" value="{{ gx }}"> <br>
         <div class="btn-group" role="group" aria-label="Basic example">
             <!-- Botão padrão para /proximo -->
-            <button type="submit" formaction="/proximo" class="btn btn-primary btn-guiches">Chamar Próximo</button>
+            <button type="submit" formaction="/proximomaster" class="btn btn-primary btn-guiches">Chamar Próximo</button>
             <!-- Novo botão para /finalizar -->
-            <button type="submit" formaction="/finalizar" class="btn btn-danger btn-guiches">Finalizar</button>
+            <button type="submit" formaction="/finalizarmaster" class="btn btn-danger btn-guiches">Finalizar</button>
         </div>
        </form>
     </div>
@@ -33,7 +39,7 @@
     <script>
         var socket = io.connect('http://' + document.domain + ':' + location.port);
     
-        socket.on('update', function() {
+        socket.on('updatemaster', function() {
             window.location.reload(true);
         });
     </script>

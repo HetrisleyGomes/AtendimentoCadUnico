@@ -49,22 +49,48 @@ header h1 {
     border-radius: 5px; /* Cantos arredondados */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
 }
-
 /* GUICHES ------------------- */
 .master {
-    display: flex;
+    display: grid; /* Mude de flex para grid */
+    grid-template-columns: repeat(4, 1fr); 
     width: 100%;
-    gap: 10px;
+    max-height: 550px;
+    gap: 10px; /* Espaçamento entre os itens do grid */
+}
+.master > .child-master { /* Use > para especificar que é um filho direto do .master */
+    background-color: #28a745; /* Cor diferente para destaque */
+    grid-column: span 4; /* Faz com que o child-master ocupe 4 colunas */
+    /* Remova o flex: 4; aqui, pois estamos usando grid */
+}
+.child-master {
+    border: 5px solid #006032;
+    border-radius: 8px;
+    & .form {
+        gap: 10px;
+        height: 22vh;
+    }
+    & .guiche{
+        color: white;
+        text-shadow: 3px 3px 0 #006032;
+    }
+    & .name {
+        max-width: 50%;
+    }
 }
 .master > .child {
-    flex: 1;
-    min-width: 0; 
+    /* Não precisa de flex: 1 aqui, pois o grid já gerencia as colunas */
+    /* grid-column: span 1; é o padrão para um item de grid, então pode ser omitido se for 1 coluna */
     background-color: #ccc;
     padding: 60px 20px;
     text-align: center;
-    display: inline-grid;
+    /* display: inline-grid; pode ser removido daqui, pois o .child já é um item de grid */
     border: 5px solid #006032;
     border-radius: 8px;
+}
+.aviso-index {
+    grid-column: 1 / -1; /* Ocupa da linha da coluna 1 até a última */
+    /* Podemos também forçá-lo para uma nova linha se quisermos */
+    grid-row: 1; /* Garante que ele fique na segunda linha */
 }
 .texto {
     width: 10vw;
@@ -107,6 +133,12 @@ header h1 {
     border-radius: 8px;
     background-color: #008C23;
 }
+.aviso {
+    color: #006032;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+}
 
 /* registro ------------------- */
 .registro-form{
@@ -129,4 +161,35 @@ header h1 {
     justify-content: space-between;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+summary{
+    font-weight: 700;
+    font-size: 24px;
+}
+details {
+    margin-bottom: 3vh;
+}
+.scroll-to-top-btn {
+    display: none; /* Oculta o botão por padrão */
+    position: fixed; /* Fixa o botão na tela */
+    bottom: 30px; /* Distância do fundo */
+    right: 30px; /* Distância da direita */
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: white; /* Cor do texto/ícone */
+    border: none;
+    border-radius: 50%; /* Faz o botão ser redondo */
+    width: 50px; /* Largura */
+    height: 50px; /* Altura */
+    font-size: 1.5em; /* Tamanho do ícone/texto */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Transição suave */
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+    display: flex; /* Para centralizar o conteúdo (ícone/texto) */
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll-to-top-btn:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse */
 }

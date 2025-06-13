@@ -1,16 +1,29 @@
 {% extends 'base.html' %}
+{% block navbar %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark p-3">
+      <a class="navbar-brand h6" href="/">Exibição</a>
+      <a class="navbar-brand h6" href="/registro">Registro</a>
+      <a class="navbar-brand h6" href="/guiches">Ghichês</a>
+      <a class="navbar-brand h6" href="/relatorio">Relatório</a>
+    </nav>
+    <header>
+        <img src="../static/images/caduni-img.png" alt="Logo" class="logo">
+        <img src="../static/images/logo.png" alt="Logo" class="logo">
+    </header>
+{% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-expand navbar-dark bg-dark p-3">
-    <a class="navbar-brand h6" href="/">Exibição</a>
-    <a class="navbar-brand h6" href="/registro">Registro</a>
-    <a class="navbar-brand h6" href="/guiches">Ghichês</a>
-    <a class="navbar-brand h6" href="/relatorio">Relatório</a>
-</nav>
-
+<div class="container mb-3 d-flex justify-content-end">
+    <form id="resetForm" method="POST" action="">
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-danger" name="action" value="guiches">Apagar dados do guichês</button>
+            <button type="submit" class="btn btn-danger" name="action" value="atendimento">Apagar dados de atendimento</button>
+        </div>
+    </form>
+</div>
 <div class="container">
-    <h2 class="p-3">Relatório</h2>
-    <div class="container">
+    <details>
+        <summary>Relatório</summary>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -32,6 +45,93 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+    </details>
+    <details>
+        <summary>Registros Detalhados</summary>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data_key, registros_do_dia in registros.items() %}
+                    {% set first_row_for_date = true %} {# Variável auxiliar para controlar rowspan #}
+                    {% for registro in registros_do_dia %}
+                        <tr>
+                            {% if first_row_for_date %}
+                                <td class="col-2">
+                                    {{ data_key }}
+                                </td>
+                                {% set first_row_for_date = false %}
+                            {% endif %}
+                            <td>{{ registro.nome }}</td>
+                            <td>{{ registro.cpf }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </details>
 </div>
+
+<button id="scrollToTopBtn" class="scroll-to-top-btn" title="Voltar ao Topo"> &#9650; </button>
+
+<script>
+    // Obtém a referência do botão
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    // Função para mostrar ou esconder o botão
+    function scrollFunction() {
+        // Se a rolagem vertical for maior que 200px (ou qualquer valor que você defina)
+        let value = 200
+        if (document.body.scrollTop > value || document.documentElement.scrollTop > value) {
+            scrollToTopBtn.style.display = "flex"; // Mostra o botão
+        } else {
+            scrollToTopBtn.style.display = "none"; // Oculta o botão
+        }
+    }
+
+    // Quando o usuário rolar a página, execute a função scrollFunction
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    // Quando o botão for clicado, volte para o topo da página suavemente
+    scrollToTopBtn.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // Faz a rolagem ser suave
+        });
+    });
+    scrollToTopBtn.style.display = "none";
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const resetForm = document.getElementById('resetForm');
+        
+        // Adiciona um listener de clique a cada botão dentro do grupo
+        resetForm.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Previne o envio padrão do formulário imediatamente
+                event.preventDefault(); 
+                
+                // Pega o valor do atributo 'value' do botão clicado
+                const buttonValue = this.value; 
+                
+                // Define a URL do formulário com base no botão clicado
+                if (buttonValue === 'guiches') {
+                    resetForm.action = '/resetar/1';
+                } else if (buttonValue === 'atendimento') {
+                    resetForm.action = '/resetar/2';
+                }
+                
+                // Envia o formulário
+                resetForm.submit();
+            });
+        });
+    });
+</script>
 {% endblock %}
